@@ -122,7 +122,7 @@ function Home() {
                                     <p>
                                         {task.completed ?
                                         <del>
-                                            {task.dueDate.toDateString()}
+                                            {task.dueDate}
                                         </del> : task.dueDate}
                                     </p>                            
                                 </div>

@@ -7,7 +7,7 @@ import Login from './Login';
 import Register from './Register';
 import Delete from './images/delete2.png';
 
-function Myday() {
+function Overdue() {
     const userInfo = useContext(UserContext);
     const [inputValue, setInputValue] = useState('');
     const [descriptionValue, setDescriptionValue] = useState('');
@@ -15,7 +15,7 @@ function Myday() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/todays_tasks', {withCredentials: true})
+        axios.get('http://localhost:4000/overdue_tasks', {withCredentials: true})
            .then(response => {
                 setTasks(response.data);
             })
@@ -91,19 +91,14 @@ function Myday() {
                 </form>
             </div>
             <div className="tasklist">
-                <h2>{new Date().toLocaleString('en-us', {
-                    weekday: 'short',
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'}
-                )} Tasks:</h2>
+                <h2>Overdue Tasks:</h2>
                 <ul>
                     {tasks.map(task => (
                         <li key={task._id}>
                             <div className="task">
                                 <input type="checkbox" 
                                     checked={task.completed}
-                                    onChange={() => completeTask(task)} /> 
+                                    onChange={() => completeTask(task)} />
                                 <div className="content">
                                     <h3>
                                         {task.completed ? 
@@ -136,4 +131,4 @@ function Myday() {
     );
 }
 
-export default Myday;
+export default Overdue;

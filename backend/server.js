@@ -152,6 +152,31 @@ app.get('/todays_tasks', (req, res) => {
        .catch(err => console.error(err));
 });
 
+// get overdue tasks
+app.get('/overdue_tasks', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    const currentDate = new Date();
+    Task.find({ userId: payload.id, dueDate: { $lt: currentDate.toISOString().split('T')[0] } })
+       .then(tasks => res.json(tasks))
+       .catch(err => console.error(err));
+});
+
+// uncompleted tasks
+app.get('/uncompleted_tasks', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    Task.find({ userId: payload.id, completed: false })
+       .then(tasks => res.json(tasks))
+       .catch(err => console.error(err));
+});
+
+// completed tasks
+app.get('/completed_tasks', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    Task.find({ userId: payload.id, completed: true })
+       .then(tasks => res.json(tasks))
+       .catch(err => console.error(err));
+});
+
 
 //logout
 app.post('/logout', (req, res) => {

@@ -7,7 +7,7 @@ import Login from './Login';
 import Register from './Register';
 import Delete from './images/delete2.png';
 
-function Myday() {
+function Uncompleted() {
     const userInfo = useContext(UserContext);
     const [inputValue, setInputValue] = useState('');
     const [descriptionValue, setDescriptionValue] = useState('');
@@ -15,7 +15,7 @@ function Myday() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:4000/todays_tasks', {withCredentials: true})
+        axios.get('http://localhost:4000/uncompleted_tasks', {withCredentials: true})
            .then(response => {
                 setTasks(response.data);
             })
@@ -91,12 +91,7 @@ function Myday() {
                 </form>
             </div>
             <div className="tasklist">
-                <h2>{new Date().toLocaleString('en-us', {
-                    weekday: 'short',
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'}
-                )} Tasks:</h2>
+                <h2>Uncompleted Tasks:</h2>
                 <ul>
                     {tasks.map(task => (
                         <li key={task._id}>
@@ -119,9 +114,9 @@ function Myday() {
                                     </p>
                                     <p>
                                         {task.completed ?
-                                            <del>
-                                                {task.dueDate}
-                                            </del> : task.dueDate}
+                                        <del>
+                                            {new Date(task.dueDate).toUTCString().split('00:00:00 GMT')[0]}
+                                        </del> : new Date(task.dueDate).toUTCString().split('00:00:00 GMT')[0]}
                                     </p>                            
                                 </div>
                             </div>
@@ -136,4 +131,4 @@ function Myday() {
     );
 }
 
-export default Myday;
+export default Uncompleted;
