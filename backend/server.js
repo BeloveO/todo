@@ -156,7 +156,7 @@ app.get('/todays_tasks', (req, res) => {
 app.get('/overdue_tasks', (req, res) => {
     const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
     const currentDate = new Date();
-    Task.find({ userId: payload.id, dueDate: { $lt: currentDate.toISOString().split('T')[0] } })
+    Task.find({ userId: payload.id, dueDate: { $lt: currentDate.toISOString().split('T')[0] }, completed: false })
        .then(tasks => res.json(tasks))
        .catch(err => console.error(err));
 });
