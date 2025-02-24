@@ -6,11 +6,13 @@ import Logo from './images/Logo.jpg';
 import Login from './Login';
 import Register from './Register';
 import Delete from './images/delete2.png';
+import Edit from './images/edit2.png';
 
 function Home() {
     const userInfo = useContext(UserContext);
     const [inputValue, setInputValue] = useState('');
     const [descriptionValue, setDescriptionValue] = useState('');
+    const [dueDateValue, setDueDateValue] = useState('');
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
@@ -52,11 +54,12 @@ function Home() {
     function addTask(e) {
         e.preventDefault();
         // Add task to the database
-        axios.put('http://localhost:4000/tasks', {text:inputValue}, {withCredentials:true})
+        axios.put('http://localhost:4000/tasks', {title:inputValue, description: descriptionValue, dueDate: dueDateValue}, {withCredentials:true})
             .then(response => {
                 setTasks([...tasks, response.data]);
                 setInputValue('');
                 setDescriptionValue('');
+                setDueDateValue('');
             })
     }
 
@@ -86,10 +89,11 @@ function Home() {
 
     return (
         <div className="homepage">
-            <div>
+            <div className="taskform">
                 <form onSubmit={e => addTask(e)}>
                     <input placeholder="Add Task" value={inputValue} onChange={e => setInputValue(e.target.value)} />
                     <input placeholder="Description of task" value={descriptionValue} onChange={e => setDescriptionValue(e.target.value)}/>
+                    <input type="date" value={dueDateValue} onChange={e => setDueDateValue(e.target.value)}/>
                     <button type="submit">Add</button>
                 </form>
             </div>
@@ -101,12 +105,27 @@ function Home() {
                             <div className="task">
                                 <input type="checkbox" 
                                     checked={task.completed}
-                                    onClick={() => completeTask(task)} /> 
-                                {task.completed ? 
-                                <del>
-                                    {task.title}
-                                    <p>{task.description}</p>
-                                </del> : task.title}
+                                    onClick={() => completeTask(task)} />
+                                <div className="content">
+                                    <h3>
+                                        {task.completed ? 
+                                        <del>
+                                            {task.title}
+                                        </del> : task.title}
+                                    </h3>
+                                    <p>
+                                        {task.completed ? 
+                                        <del>
+                                            {task.description}
+                                        </del> : task.description}
+                                    </p>
+                                    <p>
+                                        {task.completed ?
+                                        <del>
+                                            {task.dueDate.toDateString()}
+                                        </del> : task.dueDate}
+                                    </p>                            
+                                </div>
                             </div>
                             <div>
                                 <img src={Delete} alt="Delete" height={20} width={20} onClick={() => deleteTask(task)} />

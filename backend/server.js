@@ -13,9 +13,9 @@ import jwt from 'jsonwebtoken';
 dotenv.config();
 
 // connect to mongodb server
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('Connected to MongoDB'))
- .catch(err => console.error('Could not connect to MongoDB', err));
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+   .then(() => console.log('Connected to MongoDB'))
+   .catch(err => console.error('Error connecting to MongoDB:', err));
 
 const app = express();
 app.use(cookieParser());
@@ -25,7 +25,7 @@ app.use(cors(
         origin: 'http://localhost:3000',
         credentials: true,
     }
-));  // enable cors for all requests
+));
 
 
 app.get('/', (req, res) => {
@@ -105,12 +105,10 @@ app.post('/login', (req, res) => {
 app.put('/tasks', (req, res) => {
     const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
     const task = new Task({
-        title: req.body.text,
+        title: req.body.title,
         description: req.body.description,
         dueDate: req.body.dueDate,
         priority: req.body.priority,
-        assignedTo: req.body.assignedTo? req.body.assignedTo : null,
-        createdAt: new Date(),
         completed: false,
         userId: payload.id
     });
@@ -144,20 +142,18 @@ app.delete('/tasks/:id', (req, res) => {
     .then(() => res.sendStatus(200));
 });
 
-// get tasks for the day
-app.get('/tasks/day', (req, res) => {
+// get todays tasks
+app.get('/todays_tasks', (req, res) => {
     const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    Task.find({
-        userId: payload.id,
-        createdAt: { $gte: today }
-    })
-   .then(tasks => res.json(tasks))
-   .catch(err => console.error(err));
+    const currentDate = new Date();
+    const currentDay = currentDate.toISOString().split('T')[0];
+    Task.find({ userId: payload.id, dueDate: currentDay })
+       .then(tasks => res.json(tasks))
+       .catch(err => console.error(err));
 });
 
 
+//logout
 app.post('/logout', (req, res) => {
     res.cookie('token', '').send();
 });

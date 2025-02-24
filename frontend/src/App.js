@@ -25,12 +25,6 @@ function App() {
       });
   }
 
-  // tasks list
-  function tasks() {
-    axios.get('http://localhost:4000/tasks', {withCredentials: true})
-  }
-
-
   function upcoming_tasks() {
     return (
       <div>
@@ -75,10 +69,7 @@ function App() {
                   <h3>{username}</h3>
                 </div>
                 <div className='sidenav_links'>
-                  <button class="open-button" onclick="openForm()">Open Form</button>
-                  <Link to="/tasks" onClick={e => {e.preventDefault();tasks();}}>
-                    Tasks
-                  </Link>
+                  <Link to="/" onClick={e => {e.preventDefault();}}>Tasks</Link>
                   <Link to="/upcoming_tasks" onClick={e => {e.preventDefault();upcoming_tasks();}}>
                     My Day
                   </Link>

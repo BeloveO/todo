@@ -198,6 +198,26 @@ form button:focus {
   outline: none;
 }
 
+.taskform {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.taskform input {
+  color: var(--text);
+  box-sizing: border-box;
+  flex-grow: 1;
+  min-width: 0;
+  height: 50px;
+  padding: 1em;
+  font: inherit;
+  border-radius: 10px 10px 10px 10px;
+  border: 2px solid var(--secondary-background);
+  background-color: var(--secondary-background);
+  transition: 150ms ease;
+}
+
 .tasklist {
   margin: auto;
   margin-top: 30px;
@@ -231,6 +251,23 @@ form button:focus {
   flex-grow: 1;
   display: flex;
   gap: 10px;
+}
+
+.tasklist li div.task.content {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.tasklist li div.task.content h3 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.tasklist li div.task.content p {
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 #logout {
