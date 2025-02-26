@@ -127,7 +127,7 @@ function Completed() {
                                     </p>                            
                                 </div>
                             </div>
-                            <div>
+                            <div className="icon">
                                 <img src={Delete} alt="Delete" height={20} width={20} onClick={() => deleteTask(task)} />
                             </div>
                         </li>

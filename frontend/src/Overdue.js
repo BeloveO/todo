@@ -6,6 +6,7 @@ import Logo from './images/Logo.jpg';
 import Login from './Login';
 import Register from './Register';
 import Delete from './images/delete2.png';
+import Edit from './images/edit2.png';
 
 function Overdue() {
     const userInfo = useContext(UserContext);
@@ -13,6 +14,11 @@ function Overdue() {
     const [descriptionValue, setDescriptionValue] = useState('');
     const [dueDateValue, setDueDateValue] = useState('');
     const [tasks, setTasks] = useState([]);
+    const [editingTask, setEditingTask] = useState(null); 
+    const [editTitle, setEditTitle] = useState(''); 
+    const [editDescription, setEditDescription] = useState(''); 
+    const [editDueDate, setEditDueDate] = useState(''); 
+
 
     useEffect(() => {
         axios.get('http://localhost:4000/overdue_tasks', {withCredentials: true})
@@ -80,6 +86,31 @@ function Overdue() {
             })
     }
 
+    // Start editing a task
+    function startEdit(task) {
+        setEditingTask(task._id);
+        setEditTitle(task.title);
+        setEditDescription(task.description);
+        setEditDueDate(task.dueDate);
+    }
+
+    // Save the edited task
+    function saveEdit(task) {
+        axios.put(`http://localhost:4000/tasks/${task._id}`, { title: editTitle, description: editDescription, dueDate: editDueDate }, { withCredentials: true })
+            .then(() => {
+                const updatedTasks = tasks.map(t => {
+                    if (t._id === task._id) {
+                        t.title = editTitle;
+                        t.description = editDescription;
+                        t.dueDate = editDueDate;
+                    }
+                    return t;
+                });
+                setTasks([...updatedTasks]);
+                setEditingTask(null); // Exit edit mode
+            });
+    }
+
     return (
         <div className="homepage">
             <div className="taskform">
@@ -100,27 +131,52 @@ function Overdue() {
                                     checked={task.completed}
                                     onChange={() => completeTask(task)} />
                                 <div className="content">
-                                    <h3>
-                                        {task.completed ? 
-                                        <del>
-                                            {task.title}
-                                        </del> : task.title}
-                                    </h3>
-                                    <p>
-                                        {task.completed ? 
-                                        <del>
-                                            {task.description}
-                                        </del> : task.description}
-                                    </p>
-                                    <p>
-                                        {task.completed ?
-                                            <del>
-                                                {task.dueDate}
-                                            </del> : task.dueDate}
-                                    </p>                            
+                                {editingTask === task._id ? (
+                                        // Edit mode
+                                        <div className="editmode">
+                                            <div className="editinput">
+                                                <input
+                                                    value={editTitle}
+                                                    onChange={e => setEditTitle(e.target.value)}
+                                                />
+                                                <input
+                                                    value={editDescription}
+                                                    onChange={e => setEditDescription(e.target.value)}
+                                                />
+                                                <input
+                                                    type="date"
+                                                    value={editDueDate}
+                                                    onChange={e => setEditDueDate(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="editbuttons">
+                                                <button onClick={() => saveEdit(task)}>Save</button>
+                                                <button onClick={() => setEditingTask(null)}>Cancel</button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        // Display mode
+                                        <div>
+                                            <h3>
+                                                {task.completed ?
+                                                    <del>{task.title}</del> : task.title}
+                                            </h3>
+                                            <p>
+                                                {task.completed ?
+                                                    <del>{task.description}</del> : task.description}
+                                            </p>
+                                            <p>
+                                                {task.completed ?
+                                                    <del>{task.dueDate}</del> : task.dueDate}
+                                            </p>
+                                        </div>
+                                    )}                  
                                 </div>
                             </div>
-                            <div>
+                            <div className="icon">
+                                {editingTask !== task._id && (
+                                    <img src={Edit} alt="Edit" height={20} width={20} onClick={() => startEdit(task)} />
+                                )}
                                 <img src={Delete} alt="Delete" height={20} width={20} onClick={() => deleteTask(task)} />
                             </div>
                         </li>

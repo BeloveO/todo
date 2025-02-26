@@ -8,6 +8,7 @@ import User from './models/User.js';
 import Task from './models/Task.js';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import { UTCDate } from "@date-fns/utc";
 
 
 dotenv.config();
@@ -120,7 +121,7 @@ app.put('/tasks', (req, res) => {
 // get tasks of user id
 app.get('/tasks', (req, res) => {
     const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
-    Task.find({ userId: payload.id })
+    Task.find({ userId: payload.id, completed: false })
        .then(tasks => res.json(tasks))
        .catch(err => console.error(err));
 });
@@ -146,8 +147,8 @@ app.delete('/tasks/:id', (req, res) => {
 app.get('/todays_tasks', (req, res) => {
     const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
     const currentDate = new Date();
-    const currentDay = currentDate.toISOString().split('T')[0];
-    Task.find({ userId: payload.id, dueDate: currentDay })
+    const currentDay = currentDate.toString();
+    Task.find({ userId: payload.id, dueDate: currentDay, completed: false })
        .then(tasks => res.json(tasks))
        .catch(err => console.error(err));
 });
@@ -155,8 +156,8 @@ app.get('/todays_tasks', (req, res) => {
 // get overdue tasks
 app.get('/overdue_tasks', (req, res) => {
     const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
-    const currentDate = new Date();
-    Task.find({ userId: payload.id, dueDate: { $lt: currentDate.toISOString().split('T')[0] }, completed: false })
+    const currentDate = new UTCDate();
+    Task.find({ userId: payload.id, dueDate: { $lt: currentDate, $exists: true, $ne: "" }, completed: false })
        .then(tasks => res.json(tasks))
        .catch(err => console.error(err));
 });
@@ -175,6 +176,13 @@ app.get('/completed_tasks', (req, res) => {
     Task.find({ userId: payload.id, completed: true })
        .then(tasks => res.json(tasks))
        .catch(err => console.error(err));
+});
+
+// edit tasks
+app.put('/tasks/:id', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    Task.updateOne({ _id: req.params.id, userId: payload.id }, { $set: req.body })
+       .then(() => res.sendStatus(200));
 });
 
 

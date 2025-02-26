@@ -228,6 +228,7 @@ form button:focus {
   justify-content: center; 
 }
 
+
 .tasklist h2 {
   font-size: 24px;
   font-weight: 600;
@@ -250,6 +251,77 @@ form button:focus {
 .tasklist li div.task {
   flex-grow: 1;
   display: flex;
+  gap: 10px;
+}
+
+.tasklist li div.task div.editmode {
+  width: min(50%, 200px);
+  margin: auto;
+  flex-direction: column;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.tasklist li div.task div.editmode div.editinput {
+  flex-grow: 1;
+  display: block;
+  gap: 15px;
+}
+
+.tasklist li div.task div.editmode div.editinput input {
+  color: var(--text);
+  box-sizing: border-box;
+  flex-grow: 1;
+  min-width: 0;
+  height: 50px;
+  padding: 1em;
+  font: inherit;
+  border-radius: 10px 10px 10px 10px;
+  border: 2px solid var(--secondary-background);
+  background-color: var(--secondary-background);
+  transition: 150ms ease;
+}
+
+.tasklist li div.task div.editmode div.editinput input:hover {
+  border: 2px solid var(--teal);
+}
+
+.tasklist li div.task div.editmode div.editinput input:focus {
+  outline: none;
+  border-color: var(--text);
+}
+
+.tasklist li div.task div.editmode div.editbuttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tasklist li div.task div.editmode div.editbuttons button {
+  padding: 5px 10px;
+  background-color: var(--purple);
+  color: var(--background);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tasklist li div.task div.editmode div.editbuttons button:hover {
+  background-color: var(--teal);
+}
+
+.tasklist li div.task div.editmode div.editbuttons button:focus {
+  outline: none;
+}
+
+.tasklist li div.icon {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 

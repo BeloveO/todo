@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@date-fns/utc@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@date-fns/utc/-/utc-2.1.0.tgz#923896160bd33209d747503eeed59005ee4425d2"
+  integrity sha512-176grgAgU2U303rD2/vcOmNg0kGPbhzckuH1TEP2al7n0AQipZIy9P15usd2TKQCG1g+E1jX/ZVQSzs4sUDwgA==
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -289,6 +294,11 @@ cross-spawn@^7.0.0:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+date-fns@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-4.1.0.tgz#64b3d83fff5aa80438f5b1a633c2e83b8a1c2d14"
+  integrity sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==
 
 debug@2.6.9:
   version "2.6.9"
@@ -821,6 +831,11 @@ mogoose@^0.0.1-security:
   version "0.0.1-security"
   resolved "https://registry.yarnpkg.com/mogoose/-/mogoose-0.0.1-security.tgz#2f9989ff49f11b43dc18436c237c7688caa08fa2"
   integrity sha512-TX97LVQnLr7jzee6nRZlKKS1XXC/Xp2M5OE2Vz7L/e3mkPMupVfuG4A5tIFFNeClFJ+LH/A0bsqekZolAPOIuA==
+
+moment@^2.30.1:
+  version "2.30.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
+  integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
 
 ms@2.0.0:
   version "2.0.0"
