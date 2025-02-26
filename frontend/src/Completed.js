@@ -88,15 +88,7 @@ function Completed() {
 
 
     return (
-        <div className="homepage">
-            <div className="taskform">
-                <form onSubmit={e => addTask(e)}>
-                    <input placeholder="Add Task" value={inputValue} onChange={e => setInputValue(e.target.value)} />
-                    <input placeholder="Description of task" value={descriptionValue} onChange={e => setDescriptionValue(e.target.value)}/>
-                    <input type="date" value={dueDateValue} onChange={e => setDueDateValue(e.target.value)}/>
-                    <button type="submit">Add</button>
-                </form>
-            </div>
+        <div className="homepage">   
             <div className="tasklist">
                 <h2>Completed Tasks:</h2>
                 <ul>
