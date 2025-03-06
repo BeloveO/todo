@@ -185,6 +185,105 @@ app.put('/tasks/:id', (req, res) => {
        .then(() => res.sendStatus(200));
 });
 
+// go to settings page
+app.get('/settings', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    User.findById(payload.id)
+       .then(userInfo => res.json(userInfo));
+});
+
+// change username
+app.put('/user/username', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    User.updateOne({ _id: payload.id }, { $set: { username: req.body.username } })
+       .then(() => res.sendStatus(200));
+});
+
+// update user info
+app.put('/user/info', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    User.updateOne({ _id: payload.id }, { $set: req.body })
+       .then(() => res.sendStatus(200));
+});
+
+// delete account
+app.delete('/user/account', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    User.deleteOne({ _id: payload.id })
+       .then(() => res.sendStatus(200));
+});
+
+// reset password
+app.post('/user/password/reset', (req, res) => {
+    const email = req.body.email;
+    User.findOne({ email })
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+       then(userInfo => {
+        const token = jwt.sign({ id: userInfo._id, email: userInfo.email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        const url = `http://localhost:3000/reset_password/${token}`;
+        transporter.sendMail({
+            from: 'noreply@localhost.com',
+            to: email,
+            subject: 'Reset Password',
+            text: `Click the link below to reset your password: ${url}`
+        }, (err, info) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+            res.json({ message: 'Password reset link sent to your email' });
+        });
+       })
+})
+
+// reset password with token
+app.put('/reset_password/:token', (req, res) => {
+    const token = req.params.token;
+    jwt.verify(token, process.env.SECRET_KEY, (err, payload) => {
+        if (err) {
+            return res.status(403).json({ error: 'Expired or invalid token' });
+        }
+        User.updateOne({ _id: payload.id }, { password: req.body.password })
+           .then(() => res.json({ message: 'Password updated successfully' }));
+    });
+});
+
+// update password
+app.put('/user/change_password', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    User.findById(payload.id)
+    bcrypt.hash(req.body.newPassword, 10, (err, hashedPassword) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+        User.updateOne({ _id: payload.id }, { password: hashedPassword })
+           .then(() => res.sendStatus(200));
+    })
+})
+
+// change password
+app.put('/user/password', (req, res) => {
+    const payload = jwt.verify(req.cookies.token, process.env.SECRET_KEY)
+    User.findById(payload.id)
+       .then(userInfo => {
+            if (bcrypt.compareSync(req.body.currentPassword, userInfo.password)) {
+                bcrypt.hash(req.body.newPassword, 10, (err, hashedPassword) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).json({ error: 'Internal Server Error' });
+                    }
+                    User.updateOne({ _id: payload.id }, { password: hashedPassword })
+                       .then(() => res.sendStatus(200));
+                });
+            } else {
+                return res.status(401).json({ error: 'Incorrect current password' });
+            }
+        });
+});
+
 
 //logout
 app.post('/logout', (req, res) => {
