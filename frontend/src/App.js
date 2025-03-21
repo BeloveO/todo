@@ -12,6 +12,8 @@ import axios from 'axios';
 import Uncompleted from './Uncompleted';
 import Completed from './Completed';
 import Settings from './Settings';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -70,6 +72,8 @@ function App() {
             <Route path="/uncompleted_tasks" element={<Uncompleted />} />
             <Route path="/completed_tasks" element={<Completed />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/forgot-password" element={<ForgotPassword/>}/>
+            <Route path='/reset-password/:token' element={<ResetPassword/>}/>
           </Routes>
         </main>
       </BrowserRouter>

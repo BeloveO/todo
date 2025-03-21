@@ -50,35 +50,73 @@ nav a{
 }
 
 .landing h1{
+  width: 80%;
   font-size: 36px;
   font-family: cursive;
   margin-bottom: 20px;
   font-weight: 600;
   color: var(--purple);
+  text-align: center;
 }
 
 .landing h2 {
+  width: 80%;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 25px;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
+  text-align: center;
 }
 
 .landing p{
+  width: 80%;
+  text-align: center;
   font-size: 18px;
   margin-bottom: 10px;
 }
 
-.landing button {
+.landing nav {
+  width: 80%;
+  text-align: center;
+}
+
+.landing .signup {
+  display: inline;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
   font-size: 18px;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border-radius: 15px;
   background-color: var(--purple);
   color: var(--text);
   border: none;
   cursor: pointer;
+}
+
+.landing .signup:hover {
+  background-color: var(--teal);
+}
+
+.landing .signin {
+  display: inline;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  font-size: 18px;
+  padding: 10px 10px;
+  border-radius: 15px;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.landing .signin:hover {
+  background-color: var(--secondary-background);
 }
 
 .background {
@@ -196,6 +234,13 @@ form button:hover {
 
 form button:focus {
   outline: none;
+}
+
+form p.error-message {
+  font-size: 20px;
+  color: #f00;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .taskform {
@@ -505,7 +550,7 @@ form button:focus {
   height: 50px;
   background-color: var(--purple);
   fill: var(--background);
-  border-radius: 10px 0 0 10px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -513,7 +558,20 @@ form button:focus {
   font-weight: 500;
 }
 
+.details label img {
+  height: 24px;
+  width: 24px;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .details p {
+  display: flex;
+  justify-content: left;
+  align-items: center;
   color: var(--text);
   box-sizing: border-box;
   flex-grow: 1;
@@ -522,8 +580,181 @@ form button:focus {
   padding: 1em;
   font: inherit;
   border-radius: 0 10px 10px 0;
-  border: 2px solid var(--secondary-background);
+  border: 1px solid var(--secondary-background);
   border-left: none;
-  background-color: var(--secondary-background);
   transition: 150ms ease;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: var(--text);
+  padding: 10px 20px; /* Padding */
+  font-size: 16px; /* Font size */
+  border: none; /* Remove border */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-right: 10px; 
+}
+
+.dropbtn:hover {
+  background-color: var(--secondary-background);
+}
+
+.dropdown-content {
+  display: none; /* Hidden by default */
+  position: absolute; /* Position relative to the dropdown container */
+  background-color: #f9f9f9; /* Light background */
+  min-width: 160px; /* Minimum width */
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* Shadow */
+  z-index: 1; /* Ensure it appears above other elements */
+  top: 100%; /* Position below the button */
+  left: 0; /* Align with the left edge of the button */
+}
+
+.dropdown-content button {
+  background-color: var(--purple);
+  color: var(--background);
+  padding: 12px 16px; /* Padding */
+  text-decoration: none; /* Remove underline */
+  display: block; /* Make links block elements */
+  width: 100%; /* Full width */
+  text-align: left; /* Align text to the left */
+  border: none; /* Remove border */
+  background: none; /* Remove background */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.dropdown-content button:hover {
+  background-color: var(--teal);
+}
+
+/* Show the dropdown menu when the dropdownVisible state is true */
+.dropdown-content.show {
+  display: block;
+}
+
+.form-popup #myForm {
+  display: none;
+  position: relative;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+.update-account {
+  max-width: 300px;
+  padding: 10px;
+  background-color: var(--secondary-background);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.update-account input[type="text"],
+.update-account input[type="password"] {
+  width: 70%;
+  padding: 10px;
+  margin: 5px 0 5px 0;
+  border: none;
+  border-radius: 15px;
+  background: #f1f1f1;
+}
+
+.update-account .btn {
+  width: 70%;
+  margin-top: 8px;
+  background-color: var(--purple);
+  color: var(--background);
+  border: none;
+  border-radius: 1000px;
+  padding: 0.75em 2em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 500;
+  font: inherit;
+  transition: 150ms ease;
+}
+
+.update-account .cancel {
+  width: 70%;
+  margin-bottom: 8px;
+  margin-top: 10px;
+  background-color: red;
+  color: var(--background);
+  border: none;
+  border-radius: 1000px;
+  padding: 0.75em 2em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 500;
+  font: inherit;
+  transition: 150ms ease;
+}
+
+.update-account .btn:hover {
+  background-color: var(--teal);
+}
+
+.update-account .cancel:hover {
+  background-color: var(--teal);
+}
+
+.forgot-password {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.forgot-password > form {
+  margin-bottom: 20px;
+}
+
+.forgot-password > form h1 {
+  margin-bottom: 20px;
+}
+
+.forgot-password > form p {
+  margin-bottom: 10px;
+}
+
+.forgot-password > form p.error {
+  font-size: 20px;
+  color: #f00;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.forgot-password > form input {
+  border-radius: 10px;
+  width: 70%;
+}
+
+.forgot-password .links {
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-message p {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }

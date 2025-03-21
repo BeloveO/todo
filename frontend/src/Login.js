@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from './UserContext';
-import { Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Password from "./images/password.png";
 import { Link } from "react-router-dom";
+import ForgotPassword from "./ForgotPassword";
+import Register from "./Register";
 
 
 function Login() {
@@ -37,7 +39,7 @@ function Login() {
             <h2>Login</h2>
             <form action="" onSubmit={e => loginUser(e)} id="form">
                 {error && (
-                    <div>Login Error! Wrong email or Password</div>
+                    <p className="error-message">Login Error! Wrong email or Password</p>
                 )}
                 <div>
                     <label>
@@ -52,7 +54,8 @@ function Login() {
                     <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} /> <br />
                 </div>
                 <button type="submit">Login</button>
-                {error && <p>{error}</p>}
+                {error && <p className="error-message">{error}</p>}
+                <p><Link to="/forgot-password">Forgotten Password</Link></p>
                 <p>Don't have an account? <Link to="/register">Register</Link></p>
             </form>
         </div>

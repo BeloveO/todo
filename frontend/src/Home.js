@@ -19,6 +19,8 @@ function Home() {
     const [editDescription, setEditDescription] = useState(''); 
     const [editDueDate, setEditDueDate] = useState(''); 
 
+
+
     useEffect(() => {
         axios.get('http://localhost:4000/tasks', { withCredentials: true })
             .then(response => {
@@ -32,14 +34,18 @@ function Home() {
             <div>
                 <div className="home">
                     <div className="landing">
-                        <h1>Welcome to<br /> MABCE'S QUEST</h1>
-                        <h2>Click below to login securely</h2>
+                        <h1>Welcome to <br /> MABCE'S QUEST</h1>
+                        <h2>Your secure Task App</h2>
+                        <p>Don't have an account? </p>
+                        <nav>
+                            <Link to="/register"><button className="signup">Register</button></Link>
+                        </nav>
+                        <h2>Already have an Account?</h2>
                         <nav>
                             <Link to="/login">
-                                <button>Login</button>
+                                <button className="signin">Click to Login</button>
                             </Link>
                         </nav>
-                        <p>Don't have an account? <Link to="/register">Register</Link></p>
                     </div>
                     <div className="background">
                         <img src={Logo} alt="Logo" />

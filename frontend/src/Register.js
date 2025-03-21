@@ -14,10 +14,44 @@ function Register() {
     const [success, setSuccess] = useState(false);
     const user = useContext(UserContext);
 
+
+    // Password validation function
+    const validatePassword = (password) => {
+        const minLength = 6;
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*]/.test(password);
+
+        if (password.length < minLength) {
+            return "Password must be at least 6 characters long!";
+        }
+        if (!hasUppercase) {
+            return "Password must contain at least one uppercase letter!";
+        }
+        if (!hasLowercase) {
+            return "Password must contain at least one lowercase letter!";
+        }
+        if (!hasNumber) {
+            return "Password must contain at least one number!";
+        }
+        if (!hasSpecialChar) {
+            return "Password must contain at least one special character!";
+        }
+        return null; // No error
+    };
+
     function registerUser(e) {
         e.preventDefault();
         if (password!==confirmPassword) {
             setError('Passwords do not match');
+            return;
+        }
+
+        // Validate password constraints
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            setError(passwordError);
             return;
         }
 
@@ -40,6 +74,7 @@ function Register() {
         <div className="wrapper">
             <h2>Register</h2>
             <form action="" onSubmit={e => registerUser(e)} id="form">
+                {error && <p className="error-message">{error}</p>}
                 <div>
                     <label for="name-input">
                         <img src={Account} height={24} width={24} alt="user" />
@@ -65,7 +100,6 @@ function Register() {
                     <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} /> <br />
                 </div>
                 <button type="submit">Register</button>
-                {error && <p>{error}</p>}
                 <p>Already have an account? <a href="/login">Login</a></p>
             </form>
         </div>
